@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: tcg-tracker-app
