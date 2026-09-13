@@ -1,0 +1,8 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.maven.enabled": true,
+  "files.watcherExclude": {
+    "**/target/**": true
+  },
+  "java.compile.nullAnalysis.mode": "automatic"
+}
