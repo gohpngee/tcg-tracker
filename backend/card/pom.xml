@@ -10,7 +10,7 @@
     </parent>
     <artifactId>card</artifactId>
     <name>card</name>
-    <description>Card catalog</description>
+    <description>Card catalogue</description>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
