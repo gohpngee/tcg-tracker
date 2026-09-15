@@ -1,6 +1,9 @@
 package com.tcgtracker.card.repository;
 
 import jakarta.persistence.EntityManager;
+import java.util.Optional;
+import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,8 +19,6 @@ import com.tcgtracker.card.entity.CardGame;
 import com.tcgtracker.card.entity.CardSet;
 import com.tcgtracker.card.entity.CardSet.Language;
 import com.tcgtracker.card.entity.CatalogueSource;
-import java.time.LocalDate;
-import java.util.List;
 
 import com.tcgtracker.card.entity.Card;
 
@@ -38,9 +39,10 @@ public class CardRepositoryPersistenceTest {
     @Autowired 
     private CardRepository cardRepository;
 
+    CardGame cardGame = new CardGame(CardGame.GameName.POKEMON);
+
     @Test
     void findByCardSetIdTest() {
-        CardGame cardGame = new CardGame(CardGame.GameName.POKEMON);
         CardSet svBaseSet = new CardSet(
             "sv01",
             "SV01",
@@ -91,4 +93,35 @@ public class CardRepositoryPersistenceTest {
         assertEquals(targetSetId, results.get(0).getCardSet().getId());
     }
 
+    @Test 
+    void findByCardIdTest() {
+        CardSet paldeaEvolvedSet = new CardSet(
+            "sv02",
+            "SV02",
+            "Paldea Evolved",
+            Language.ENGLISH,
+            cardGame,
+            LocalDate.of(2023, 06, 9),
+            279,
+            CatalogueSource.TCGDEX,
+            "https://www.tcgdex.net/images/sets/sv02.png"
+        );
+
+        Card mausholdIRPE = new Card(
+            "226", "226/193", "Maushold", "Illustration Rare", paldeaEvolvedSet, null);
+
+        entityManager.persist(cardGame);
+        entityManager.persist(paldeaEvolvedSet);
+        entityManager.persist(mausholdIRPE);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        Long targetCardId = mausholdIRPE.getId();
+
+        Optional<Card> result = cardRepository.findById(targetCardId);
+
+        assertEquals(targetCardId, result.get().getId());
+
+    }
 }
