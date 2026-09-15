@@ -25,7 +25,7 @@ public class CardRepository {
 
     public List<Card> findByCardSetId(Long cardSetId) {
         return entityManager.createQuery("""
-                SELECT card FROM Card c 
+                SELECT c FROM Card c 
                 WHERE c.cardSet.id = :cardSetId
                 ORDER BY c.cardNumber ASC
                 """, Card.class)
