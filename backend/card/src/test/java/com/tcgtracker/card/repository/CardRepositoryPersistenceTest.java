@@ -87,6 +87,7 @@ public class CardRepositoryPersistenceTest {
 
         assertEquals(1, results.size());
         assertEquals(targetCardId, results.get(0).getId());
+        //get the card item, then check it's cardSet attribute and retrieve the id
         assertEquals(targetSetId, results.get(0).getCardSet().getId());
     }
 
