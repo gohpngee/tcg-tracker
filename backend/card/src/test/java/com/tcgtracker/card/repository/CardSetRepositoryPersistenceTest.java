@@ -85,6 +85,7 @@ public class CardSetRepositoryPersistenceTest {
         entityManager.persist(paldeaEvolvedSet);
 
         entityManager.flush();
+        entityManager.clear();
 
         String targetSetCode = paldeaEvolvedSet.getSetCode();
         Optional<CardSet> result = cardSetRepository.findBySetCode(targetSetCode);
@@ -99,6 +100,7 @@ public class CardSetRepositoryPersistenceTest {
         entityManager.persist(paldeaEvolvedSet);
 
         entityManager.flush();
+        entityManager.clear();
 
         Long targetCardGameId = cardGame.getId();
 
