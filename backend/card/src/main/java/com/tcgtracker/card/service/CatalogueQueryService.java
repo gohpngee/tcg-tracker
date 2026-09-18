@@ -1,6 +1,7 @@
 package com.tcgtracker.card.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -37,5 +38,8 @@ public class CatalogueQueryService {
         return cardSetRepository.findBySetCode(setCode);
     }
 
-    
+    public Optional<Card> getCardByCardSetCodeAndCardNumber(String cardSetCode, String cardNumber) {
+        return cardRepository.findByCardSetCodeAndCardNumber(cardSetCode, cardNumber);
+    }
+
 }

@@ -23,6 +23,17 @@ public class CardRepository {
         );
     }
 
+    public Optional<Card> findByCardSetCodeAndCardNumber(String cardSetCode, String cardNumber) {
+        return Optional.ofNullable(
+            entityManager.createQuery("""
+                SELECT c FROM Card c 
+                WHERE c.cardSet.setCode = :cardSetCode AND c.cardNumber = :cardNumber
+                """, Card.class)
+                .setParameter("cardSetCode", cardSetCode)
+                .setParameter("cardNumber", cardNumber)
+                .getSingleResultOrNull());
+    }
+
     public List<Card> findByCardSetId(Long cardSetId) {
         return entityManager.createQuery("""
                 SELECT c FROM Card c 
