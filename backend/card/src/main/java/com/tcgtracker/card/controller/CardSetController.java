@@ -23,7 +23,7 @@ public class CardSetController {
         return ResponseEntity.ok(catalogueQueryService.getCardSets(gameId));
     }
 
-    @GetMapping("/cards/{setCode}")
+    @GetMapping("/{setCode}/cards")
     public ResponseEntity<List<Card>> getCardsBySetCode(@PathVariable String setCode) {
         return ResponseEntity.ok(catalogueQueryService.getCardsBySetCode(setCode));
     }
