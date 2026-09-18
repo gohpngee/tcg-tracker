@@ -7,6 +7,7 @@ import java.util.List;
 
 import jakarta.persistence.EntityManager;
 
+import com.tcgtracker.card.entity.Card;
 import com.tcgtracker.card.entity.CardSet;
 import com.tcgtracker.card.entity.CardGame;
 
@@ -29,13 +30,13 @@ public class CardSetRepository {
                 .getSingleResultOrNull());
     }
 
-    public Optional<CardSet> findBySetCode(String setCode) {
-        return Optional.ofNullable(entityManager.createQuery("""
+    public List<Card> findBySetCode(String setCode) {
+        return entityManager.createQuery("""
                 SELECT cs FROM CardSet cs
                 WHERE cs.setCode = :setCode
-                """, CardSet.class)
+                """, Card.class)
                 .setParameter("setCode", setCode)
-                .getSingleResultOrNull());
+                .getResultList();
     }
 
     public List<CardSet> findByCardGameId(Long cardGameId) {
