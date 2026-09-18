@@ -1,0 +1,41 @@
+package com.tcgtracker.card.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+import com.tcgtracker.card.entity.CardGame;
+import com.tcgtracker.card.entity.CardSet;
+import com.tcgtracker.card.entity.Card;
+
+import com.tcgtracker.card.repository.CardGameRepository;
+import com.tcgtracker.card.repository.CardSetRepository;
+import com.tcgtracker.card.repository.CardRepository;
+
+@RequiredArgsConstructor 
+@Getter 
+@Builder 
+@Service 
+public class CatalogueQueryService {
+    private final CardGameRepository cardGameRepository;
+    private final CardSetRepository cardSetRepository;
+    private final CardRepository cardRepository;
+
+    public List<CardGame> getCardGames() {
+        return cardGameRepository.findAll();
+    }
+
+    public List<CardSet> getCardSets(Long gameId) {
+        return cardSetRepository.findByCardGameId(gameId);
+    }
+
+    public List<Card> getCardsBySetCode(String setCode) {
+        return cardSetRepository.findBySetCode(setCode);
+    }
+
+    
+}
