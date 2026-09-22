@@ -1,8 +1,6 @@
 package com.tcgtracker.card.repository;
 
 import jakarta.persistence.EntityManager;
-import java.util.Optional;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;

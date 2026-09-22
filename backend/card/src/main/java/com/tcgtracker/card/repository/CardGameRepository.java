@@ -1,7 +1,6 @@
 package com.tcgtracker.card.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;

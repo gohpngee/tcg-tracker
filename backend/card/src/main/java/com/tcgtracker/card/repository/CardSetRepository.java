@@ -7,9 +7,7 @@ import java.util.List;
 
 import jakarta.persistence.EntityManager;
 
-import com.tcgtracker.card.entity.Card;
 import com.tcgtracker.card.entity.CardSet;
-import com.tcgtracker.card.entity.CardGame;
 
 @Repository 
 public class CardSetRepository {
