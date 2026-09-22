@@ -30,11 +30,11 @@ public class CardSetRepository {
                 .getSingleResultOrNull());
     }
 
-    public List<Card> findBySetCode(String setCode) {
+    public List<CardSet> findBySetCode(String setCode) {
         return entityManager.createQuery("""
                 SELECT cs FROM CardSet cs
                 WHERE cs.setCode = :setCode
-                """, Card.class)
+                """, CardSet.class)
                 .setParameter("setCode", setCode)
                 .getResultList();
     }

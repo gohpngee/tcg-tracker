@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
@@ -50,5 +52,31 @@ public class CardGameRepositoryPersistenceTest {
         assertEquals(2, cardGames.size());
         //checking Pokemon for index 1 because sorted alphabetically asc order
         assertEquals(cardGame1.getId(), cardGames.get(1).getId());
+    }
+
+    @Test
+    void existsByGameNameReturnsTrueWhenGameExists() {
+        CardGame pokemon = new CardGame(CardGame.GameName.POKEMON);
+
+        entityManager.persist(pokemon);
+        entityManager.flush();
+        entityManager.clear();
+
+        assertTrue(
+            cardGameRepository.existsByGameName(CardGame.GameName.POKEMON)
+        );
+    }
+
+    @Test
+    void existsByGameNameReturnsFalseWhenGameDoesNotExist() {
+        CardGame pokemon = new CardGame(CardGame.GameName.POKEMON);
+
+        entityManager.persist(pokemon);
+        entityManager.flush();
+        entityManager.clear();
+
+        assertFalse(
+            cardGameRepository.existsByGameName(CardGame.GameName.ONE_PIECE)
+        );
     }
 }

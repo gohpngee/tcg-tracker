@@ -88,9 +88,9 @@ public class CardSetRepositoryPersistenceTest {
         entityManager.clear();
 
         String targetSetCode = paldeaEvolvedSet.getSetCode();
-        Optional<CardSet> result = cardSetRepository.findBySetCode(targetSetCode);
+        List<CardSet> result = cardSetRepository.findBySetCode(targetSetCode);
 
-        assertEquals(targetSetCode, result.get().getSetCode());
+        assertEquals(targetSetCode, result.get(0).getSetCode());
     }
 
     @Test

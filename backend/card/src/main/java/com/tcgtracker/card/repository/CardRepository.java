@@ -44,4 +44,14 @@ public class CardRepository {
                 .getResultList();
     }
 
+    public List<Card> findBySetCode(String setCode) {
+        return entityManager.createQuery("""
+                SELECT c FROM Card c
+                WHERE c.cardSet.setCode = :setCode
+                ORDER BY c.cardNumber ASC
+                """, Card.class)
+                .setParameter("setCode", setCode)
+                .getResultList();
+    }
+
 }

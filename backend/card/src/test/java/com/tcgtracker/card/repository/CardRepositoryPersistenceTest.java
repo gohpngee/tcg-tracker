@@ -122,6 +122,5 @@ public class CardRepositoryPersistenceTest {
         Optional<Card> result = cardRepository.findById(targetCardId);
 
         assertEquals(targetCardId, result.get().getId());
-
     }
 }

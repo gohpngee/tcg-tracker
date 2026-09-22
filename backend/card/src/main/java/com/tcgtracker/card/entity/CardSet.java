@@ -37,7 +37,7 @@ public class CardSet {
     @Column(name = "external_id", nullable = false, unique = true)
     private String externalId;
 
-    @Column(name = "set_code", nullable = false, unique = false)
+    @Column(name = "set_code", nullable = false, unique = true)
     private String setCode;
     
     @Column(nullable = false, unique = false)

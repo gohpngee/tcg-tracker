@@ -18,8 +18,6 @@ import com.tcgtracker.card.repository.CardSetRepository;
 import com.tcgtracker.card.repository.CardRepository;
 
 @RequiredArgsConstructor 
-@Getter 
-@Builder 
 @Service 
 public class CatalogueQueryService {
     private final CardGameRepository cardGameRepository;
@@ -34,12 +32,19 @@ public class CatalogueQueryService {
         return cardSetRepository.findByCardGameId(gameId);
     }
 
-    public List<Card> getCardsBySetCode(String setCode) {
+    public List<CardSet> getCardSetsBySetCode(String setCode) {
         return cardSetRepository.findBySetCode(setCode);
+    }
+
+    public List<Card> getCardsBySetCode(String setCode) {
+        return cardRepository.findBySetCode(setCode);
     }
 
     public Optional<Card> getCardByCardSetCodeAndCardNumber(String cardSetCode, String cardNumber) {
         return cardRepository.findByCardSetCodeAndCardNumber(cardSetCode, cardNumber);
     }
 
+    public Boolean existsByGameName(CardGame.GameName gameName) {
+        return cardGameRepository.existsByGameName(gameName);
+    }
 }

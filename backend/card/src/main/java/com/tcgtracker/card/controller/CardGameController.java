@@ -5,16 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
 import com.tcgtracker.card.entity.CardGame;
-import com.tcgtracker.card.entity.CardSet;
-import com.tcgtracker.card.entity.Card;
 import com.tcgtracker.card.service.CatalogueQueryService;
 
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor 
 @RestController 
 public class CardGameController {
@@ -24,6 +24,11 @@ public class CardGameController {
     @GetMapping("/card-games")
     public ResponseEntity<List<CardGame>> getCardGames() {
         return ResponseEntity.ok(catalogueQueryService.getCardGames());
+    }
+
+    @GetMapping("/{gameName}")
+    public ResponseEntity<Boolean> existsByGameName(@PathVariable String gameName) {
+        return ResponseEntity.ok(catalogueQueryService.existsByGameName(CardGame.GameName.valueOf(gameName)));
     }
 
 }
