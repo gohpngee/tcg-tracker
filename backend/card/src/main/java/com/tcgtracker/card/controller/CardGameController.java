@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import lombok.RequiredArgsConstructor;
 
 import com.tcgtracker.card.entity.CardGame;
@@ -26,8 +28,8 @@ public class CardGameController {
         return ResponseEntity.ok(catalogueQueryService.getCardGames());
     }
 
-    @GetMapping("/{gameName}")
-    public ResponseEntity<Boolean> existsByGameName(@PathVariable String gameName) {
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> existsByGameName(@RequestParam String gameName) {
         return ResponseEntity.ok(catalogueQueryService.existsByGameName(CardGame.GameName.valueOf(gameName)));
     }
 
