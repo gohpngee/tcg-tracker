@@ -1,3 +1,7 @@
 spring:
   application:
     name: tcg-tracker-app
+
+catalogue:
+  cincai:
+    url: https://cincai-op-tcg.vercel.app
