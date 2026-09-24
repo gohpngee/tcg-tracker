@@ -25,7 +25,7 @@ public class Card {
     private Long id;
 
     //external id in provider API
-    @Column(name = "external_id", nullable = false)
+    @Column(name = "external_id", nullable = false, unique= true)
     private String externalId;
 
     @Column(name = "card_number", nullable = false)

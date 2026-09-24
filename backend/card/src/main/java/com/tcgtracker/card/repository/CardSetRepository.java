@@ -28,13 +28,13 @@ public class CardSetRepository {
                 .getSingleResultOrNull());
     }
 
-    public List<CardSet> findBySetCode(String setCode) {
-        return entityManager.createQuery("""
+    public Optional<CardSet> findBySetCode(String setCode) {
+        return Optional.ofNullable(entityManager.createQuery("""
                 SELECT cs FROM CardSet cs
                 WHERE cs.setCode = :setCode
                 """, CardSet.class)
                 .setParameter("setCode", setCode)
-                .getResultList();
+                .getSingleResultOrNull());
     }
 
     public List<CardSet> findByCardGameId(Long cardGameId) {

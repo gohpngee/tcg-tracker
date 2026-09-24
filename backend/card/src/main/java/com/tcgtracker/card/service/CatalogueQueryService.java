@@ -30,15 +30,19 @@ public class CatalogueQueryService {
         return cardSetRepository.findByCardGameId(gameId);
     }
 
-    public List<CardSet> getCardSetsBySetCode(String setCode) {
+    public Optional<CardSet> getCardSetBySetCode(String setCode) {
         return cardSetRepository.findBySetCode(setCode);
+    }
+
+    public Optional<Card> getCardById(Long cardId) {
+        return cardRepository.findById(cardId);
     }
 
     public List<Card> getCardsBySetCode(String setCode) {
         return cardRepository.findBySetCode(setCode);
     }
 
-    public Optional<Card> getCardByCardSetCodeAndCardNumber(String cardSetCode, String cardNumber) {
+    public List<Card> getCardByCardSetCodeAndCardNumber(String cardSetCode, String cardNumber) {
         return cardRepository.findByCardSetCodeAndCardNumber(cardSetCode, cardNumber);
     }
 

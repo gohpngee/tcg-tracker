@@ -23,15 +23,26 @@ public class CardRepository {
         );
     }
 
-    public Optional<Card> findByCardSetCodeAndCardNumber(String cardSetCode, String cardNumber) {
+    public Optional<Card> findByExternalId(String externalId) {
         return Optional.ofNullable(
             entityManager.createQuery("""
+                SELECT c FROM Card c 
+                WHERE c.externalId = :externalId
+                """, Card.class)
+                .setParameter("externalId", externalId)
+                .getSingleResultOrNull()
+        );
+    }
+
+    public List<Card> findByCardSetCodeAndCardNumber(String cardSetCode, String cardNumber) {
+        return entityManager.createQuery("""
                 SELECT c FROM Card c 
                 WHERE c.cardSet.setCode = :cardSetCode AND c.cardNumber = :cardNumber
                 """, Card.class)
                 .setParameter("cardSetCode", cardSetCode)
                 .setParameter("cardNumber", cardNumber)
-                .getSingleResultOrNull());
+                //return list instead of single result because parallel cards in OP can share same cardSetCode and cardNumber
+                .getResultList();
     }
 
     public List<Card> findByCardSetId(Long cardSetId) {

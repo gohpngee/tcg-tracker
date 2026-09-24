@@ -25,7 +25,7 @@ public class CardController {
     private final CatalogueQueryService catalogueQueryService;
 
     //using Request Param instead of Path Variable, to handle for input that might have special characters like slash /
-    //endpoint will look like /api/v1/cards?cardSetCode=cardSetCode&cardNumber=cardNumber instead of the path directly
+    //endpoint will look like /api/v1/cards/{cardSetCode}?cardNumber=cardNumber instead of the path directly
     @GetMapping("/{cardSetCode}")
     public ResponseEntity<List<Card>> getCard(@PathVariable String cardSetCode, @RequestParam String cardNumber) {
         return ResponseEntity.ok(catalogueQueryService.getCardByCardSetCodeAndCardNumber(cardSetCode, cardNumber));
