@@ -9,12 +9,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.List;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
 
 import com.tcgtracker.card.entity.CardSet.Language;
 import com.tcgtracker.card.entity.CatalogueSource;
@@ -71,11 +74,14 @@ public class CardSetRepositoryPersistenceTest {
         entityManager.persist(paldeaEvolvedSet);
 
         entityManager.flush();
+        entityManager.clear();
 
         String targetExternalId = paldeaEvolvedSet.getExternalId();
         Optional<CardSet> result = cardSetRepository.findByExternalId(targetExternalId);
 
-        assertEquals(targetExternalId, result.get().getExternalId());
+        assertTrue(result.isPresent());
+        assertEquals(targetExternalId, result.orElseThrow().getExternalId());
+        assertTrue(cardSetRepository.findByExternalId("missing-id").isEmpty());
     }
 
     @Test
@@ -88,16 +94,33 @@ public class CardSetRepositoryPersistenceTest {
         entityManager.clear();
 
         String targetSetCode = paldeaEvolvedSet.getSetCode();
-        List<CardSet> result = cardSetRepository.findBySetCode(targetSetCode);
+        Optional<CardSet> result = cardSetRepository.findBySetCode(targetSetCode);
 
-        assertEquals(targetSetCode, result.get(0).getSetCode());
+        assertTrue(result.isPresent());
+        assertEquals(targetSetCode, result.orElseThrow().getSetCode());
+        assertTrue(cardSetRepository.findBySetCode("MISSING").isEmpty());
     }
 
     @Test
     void findByCardGameIdTest() {
+        CardGame onePiece = new CardGame(CardGame.GameName.ONE_PIECE);
+        CardSet onePieceSet = new CardSet(
+            "op01-en",
+            "OP01",
+            "Romance Dawn",
+            Language.ENGLISH,
+            onePiece,
+            LocalDate.of(2022, 12, 2),
+            121,
+            CatalogueSource.TCGDEX,
+            null
+        );
+
         entityManager.persist(cardGame);
+        entityManager.persist(onePiece);
         entityManager.persist(svBaseSet);
         entityManager.persist(paldeaEvolvedSet);
+        entityManager.persist(onePieceSet);
 
         entityManager.flush();
         entityManager.clear();
@@ -107,6 +130,32 @@ public class CardSetRepositoryPersistenceTest {
         List<CardSet> result = cardSetRepository.findByCardGameId(targetCardGameId);
 
         assertEquals(2, result.size());
+        assertTrue(result.stream().allMatch(set -> set.getCardGame().getId().equals(targetCardGameId)));
+        assertTrue(result.stream().noneMatch(set -> set.getId().equals(onePieceSet.getId())));
+        assertTrue(cardSetRepository.findByCardGameId(Long.MAX_VALUE).isEmpty());
+    }
+
+    @Test
+    void duplicateSetCodeIsRejected() {
+        CardSet duplicateSetCode = new CardSet(
+            "different-external-id",
+            svBaseSet.getSetCode(),
+            "Duplicate set code",
+            Language.JAPANESE,
+            cardGame,
+            null,
+            null,
+            CatalogueSource.TCGDEX,
+            null
+        );
+
+        entityManager.persist(cardGame);
+        entityManager.persist(svBaseSet);
+
+        assertThrows(PersistenceException.class, () -> {
+            entityManager.persist(duplicateSetCode);
+            entityManager.flush();
+        });
     }
 
 }
