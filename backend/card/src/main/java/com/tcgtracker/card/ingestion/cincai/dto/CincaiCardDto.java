@@ -1,10 +1,9 @@
 package com.tcgtracker.card.ingestion.cincai.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Getter 
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -23,6 +23,10 @@ public class CardRepository {
         );
     }
 
+    public void persist(Card card) {
+        entityManager.persist(card);
+    }
+
     public Optional<Card> findByExternalId(String externalId) {
         return Optional.ofNullable(
             entityManager.createQuery("""

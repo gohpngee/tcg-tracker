@@ -5,18 +5,16 @@ import org.springframework.web.client.RestClient;
 
 import java.util.Objects;
 
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 
 import com.tcgtracker.card.ingestion.cincai.dto.CincaiQueryResponseDto;
 
-@RequiredArgsConstructor
 @Component 
 public class CincaiCatalogueClient {
     private final RestClient restClient;
 
+    //custom constructor for this class
     public CincaiCatalogueClient(
             RestClient.Builder restClientBuilder,
             @Value("${catalogue.cincai.url}") String baseUrl) {

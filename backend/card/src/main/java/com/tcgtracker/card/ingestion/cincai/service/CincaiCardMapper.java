@@ -1,26 +1,25 @@
 package com.tcgtracker.card.ingestion.cincai.service;
 
 
-import org.springframework.stereotype.Component;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.List;
+import java.util.Objects;
 
-import com.tcgtracker.card.ingestion.cincai.dto.CincaiCardDto;
-import com.tcgtracker.card.ingestion.cincai.dto.CincaiQueryResponseDto;
+import org.springframework.stereotype.Component;
 
 import com.tcgtracker.card.entity.Card;
 import com.tcgtracker.card.entity.CardSet;
 import com.tcgtracker.card.entity.CatalogueSource;
 import com.tcgtracker.card.ingestion.ExternalIdFactory;
-
+import com.tcgtracker.card.ingestion.cincai.dto.CincaiCardDto;
+import com.tcgtracker.card.ingestion.cincai.dto.CincaiQueryResponseDto;
 import com.tcgtracker.common.exception.classes.NoCardsFoundException;
 
 @Component
 public class CincaiCardMapper {
     public String extractSetName(CincaiQueryResponseDto response) {
         if (Objects.isNull(response) || Objects.isNull(response.getResults()) || response.getResults().isEmpty()) {
-            throw new NoCardsFoundException("No/empty response from Cincai API");
+            throw new NoCardsFoundException("Empty data returned from Cincai API");
         }
 
         List<CincaiCardDto> results = response.getResults();
@@ -52,8 +51,12 @@ public class CincaiCardMapper {
     }
 
     public List<Card> toCards(CincaiQueryResponseDto response, CardSet cardSet) {
-        if (Objects.isNull(response) || Objects.isNull(cardSet)) {
-            throw new NoCardsFoundException("Invalid input: response or/and cardSet is null");
+        if (Objects.isNull(response)) {
+            throw new NoCardsFoundException("Empty data returned from Cincai API");
+        }
+
+        if (Objects.isNull(cardSet)) {
+            throw new IllegalArgumentException("cardSet cannot be null");
         }
 
         List<Card> cardList = new ArrayList<>();

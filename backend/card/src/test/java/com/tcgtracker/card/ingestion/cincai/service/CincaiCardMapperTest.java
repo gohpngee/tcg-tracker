@@ -2,6 +2,10 @@ package com.tcgtracker.card.ingestion.cincai.service;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import com.tcgtracker.card.entity.Card;
@@ -16,11 +20,6 @@ import com.tcgtracker.common.exception.classes.NoCardsFoundException;
 
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CincaiCardMapperTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
